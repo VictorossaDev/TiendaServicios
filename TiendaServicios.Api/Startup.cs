@@ -1,15 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using TiendaServicios.Api.Persistencia;
 
 namespace TiendaServicios.Api
 {
@@ -26,6 +28,10 @@ namespace TiendaServicios.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<TiendaServiciosContext>(options =>
+            {
+                  options.UseNpgsql(Configuration.GetConnectionString("TiendaServiciosCnx"));
+             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
